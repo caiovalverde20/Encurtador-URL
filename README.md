@@ -5,8 +5,12 @@
 Este é um sistema de API RESTful para encurtar URLs, com suporte para autenticação de usuários. Usuários autenticados podem criar URLs encurtadas, visualizá-las, editá-las, excluí-las e verificar a contagem de cliques em cada URL.
 
 ## Deploy
-O sistema possui um deploy no heroku na seguinte url:
-https://encurtador-url-494b0e41f505.herokuapp.com
+O sistema possui um deploy no heroku na seguinte url base:
+`https://encurtador-url-494b0e41f505.herokuapp.com`
+
+## Documentação da API:
+Acesse a documentação no Swagger em `http://localhost:3000/api` após iniciar a aplicação.
+Ou acesse `https://encurtador-url-494b0e41f505.herokuapp.com/api/docs`
 
 ## Tecnologias
 - **Node.js**: Ambiente de execução JavaScript.
@@ -37,9 +41,6 @@ O sistema funciona sem precisar adicionar variaveis de ambiente por padrão, mas
    ```bash
    docker-compose up --build
    ```
-
-4. Documentação da API:
-   Acesse a documentação no Swagger em `http://localhost:3000/api` após iniciar a aplicação.
 
 ### Comandos Importantes
 
