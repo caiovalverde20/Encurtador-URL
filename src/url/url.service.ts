@@ -54,6 +54,15 @@ export class UrlService {
     await this.urlRepository.save(url);
   }
 
+  async updateUserUrl(shortUrl: string, userId: number, newOriginalUrl: string): Promise<Url> {
+    const url = await this.findUrlByUser(shortUrl, userId);
+  
+    url.originalUrl = newOriginalUrl;
+    await this.urlRepository.save(url);
+  
+    return url;
+  }
+
   private generateShortCode(): string {
     return Math.random().toString(36).substring(2, 8);
   }

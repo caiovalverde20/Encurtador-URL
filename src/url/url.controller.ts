@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Param, Get, Res, Req, UseGuards, UnauthorizedException, Delete } from '@nestjs/common';
+import { Controller, Post, Body, Param, Get, Res, Req, UseGuards, UnauthorizedException, Delete, Patch } from '@nestjs/common';
 import { UrlService } from './url.service';
 import { Url } from './url.entity';
 import { Response } from 'express';
@@ -44,5 +44,20 @@ export class UrlController {
     }
     await this.urlService.deleteUserUrl(shortUrl, req.user.id);
     return { message: 'URL successfully deleted' };
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch(':shortUrl')
+  async updateUrl(
+    @Param('shortUrl') shortUrl: string,
+    @Body('newOriginalUrl') newOriginalUrl: string,
+    @Req() req: AuthenticatedRequest,
+  ): Promise<{ message: string; updatedUrl: Url }> {
+    if (!req.user) {
+      throw new UnauthorizedException('Authentication required');
+    }
+  
+    const updatedUrl = await this.urlService.updateUserUrl(shortUrl, req.user.id, newOriginalUrl);
+    return { message: 'URL successfully updated', updatedUrl };
   }
 }
