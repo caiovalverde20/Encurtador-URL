@@ -1,5 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne } from 'typeorm';
-import { User } from '../user/user.entity';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity('urls')
 export class Url {
@@ -24,6 +23,6 @@ export class Url {
   @Column({ nullable: true })
   deletedAt: Date;
 
-  @ManyToOne(() => User, { nullable: true })
-  user: User | null;
+  @Column({ nullable: true })
+  userId: number | null;
 }
