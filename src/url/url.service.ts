@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Url } from './url.entity';
+import { User } from '../user/user.entity';
 
 @Injectable()
 export class UrlService {
@@ -10,9 +11,9 @@ export class UrlService {
     private readonly urlRepository: Repository<Url>,
   ) {}
 
-  async shortenUrl(originalUrl: string): Promise<Url> {
+  async shortenUrl(originalUrl: string, user?: User): Promise<Url> {
     const shortUrl = this.generateShortCode();
-    const url = this.urlRepository.create({ originalUrl, shortUrl });
+    const url = this.urlRepository.create({ originalUrl, shortUrl, user: user || null });
     return await this.urlRepository.save(url);
   }
 
