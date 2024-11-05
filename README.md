@@ -4,6 +4,10 @@
 ## Descrição
 Este é um sistema de API RESTful para encurtar URLs, com suporte para autenticação de usuários. Usuários autenticados podem criar URLs encurtadas, visualizá-las, editá-las, excluí-las e verificar a contagem de cliques em cada URL.
 
+## Deploy
+O sistema possui um deploy no heroku na seguinte url:
+https://encurtador-url-494b0e41f505.herokuapp.com
+
 ## Tecnologias
 - **Node.js**: Ambiente de execução JavaScript.
 - **NestJS**: Framework Node.js para construção de APIs escaláveis.
@@ -48,7 +52,6 @@ Os testes incluem:
 - **Testes de Rotas de URL**: Encurtamento, edição, exclusão, contagem de cliques e listagem.
 
 ### Melhorias Futuras
-- **Deploy em ambiente de nuvem** para maior acessibilidade e escalabilidade.
 - **Cobertura de testes mais ampla** com integração e e2e.
 - **Observabilidade**: Adicionar métricas, rastreamento e logging.
 
