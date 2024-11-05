@@ -25,14 +25,16 @@ export class UrlController {
     return this.urlService.getUserUrls(req.user.id);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':shortUrl')
-  async redirectToOriginalUrl(
+  async getOriginalUrl(
     @Param('shortUrl') shortUrl: string,
-    @Res() res: Response,
-  ): Promise<void> {
-    const originalUrl = await this.urlService.getOriginalUrlAndIncrementClick(shortUrl);
-    return res.redirect(originalUrl);
-  }
+    @Req() req: AuthenticatedRequest,
+  ): Promise<{ originalUrl: string }> {
+    const userId = req.user ? req.user.id : undefined;
+    const originalUrl = await this.urlService.getOriginalUrlAndIncrementClick(shortUrl, userId);
+    return { originalUrl };
+  }  
 
   @UseGuards(JwtAuthGuard)
   @Delete(':shortUrl')

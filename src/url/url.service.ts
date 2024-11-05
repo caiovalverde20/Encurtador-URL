@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Url } from './url.entity';
@@ -21,7 +21,6 @@ export class UrlService {
     return await this.urlRepository.save(url);
   }
 
-
   async getUserUrls(userId: number): Promise<Url[]> {
     return this.urlRepository
       .createQueryBuilder('url')
@@ -30,17 +29,22 @@ export class UrlService {
       .getMany();
   }
 
-  async getOriginalUrlAndIncrementClick(shortUrl: string): Promise<string> {
+  async getOriginalUrlAndIncrementClick(shortUrl: string, userId?: number): Promise<string> {
     const url = await this.urlRepository.findOne({
       where: { shortUrl, deletedAt: null },
     });
-
+  
     if (!url) {
       throw new NotFoundException('URL not found or has been deleted');
     }
-
+  
+    if (url.userId !== null && url.userId !== userId) {
+      throw new UnauthorizedException('You do not have access to this URL');
+    }
+  
     url.clickCount += 1;
-    await this.urlRepository.save(url);
+    await this.urlRepository.save(url); 
+  
     return url.originalUrl;
   }
 
