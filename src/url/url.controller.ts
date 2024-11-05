@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Param, Get, Res, Req, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, Param, Get, Res, Req, UseGuards, UnauthorizedException } from '@nestjs/common';
 import { UrlService } from './url.service';
 import { Url } from './url.entity';
 import { Response } from 'express';
@@ -14,6 +14,15 @@ export class UrlController {
   async shortenUrl(@Body('originalUrl') originalUrl: string, @Req() req: AuthenticatedRequest): Promise<Url> {
     const user = req.user ? req.user : null;
     return this.urlService.shortenUrl(originalUrl, user);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get()
+  async listUrls(@Req() req: AuthenticatedRequest): Promise<Url[]> {
+    if (!req.user) {
+      throw new UnauthorizedException('Authentication required');
+    }
+    return this.urlService.getUserUrls(req.user.id);
   }
 
   @Get(':shortUrl')

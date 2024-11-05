@@ -21,6 +21,10 @@ export class UrlService {
     return Math.random().toString(36).substring(2, 8);
   }
 
+  async getUserUrls(userId: number): Promise<Url[]> {
+    return this.urlRepository.find({ where: { user: { id: userId }, deletedAt: null } });
+  }
+
   async getOriginalUrlAndIncrementClick(shortUrl: string): Promise<string> {
     const url = await this.urlRepository.findOne({
       where: { shortUrl, deletedAt: null },
